@@ -1,28 +1,24 @@
-<template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
-</template>
-
-<script>
-import HelloWorld from './components/HelloWorld.vue'
-
-export default {
-  name: 'app',
-  components: {
-    HelloWorld
-  }
-}
-</script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style scoped>
+a {
+  text-decoration: none;
+  color: black;
 }
 </style>
+
+<template>
+<v-app>
+  <div>
+    <v-toolbar>
+      <v-toolbar-title>AirVyus</v-toolbar-title>
+      <v-toolbar-items>
+        <v-btn text><router-link to="/">Accueil</router-link></v-btn>
+        <v-btn text>Ajouter un compte</v-btn>
+        <v-btn text>Liste des utilisateurs</v-btn>
+        <v-btn text><router-link to="/login">Se connecter</router-link></v-btn>
+        <v-btn text>S'inscrire</v-btn>
+      </v-toolbar-items>
+    </v-toolbar>
+      <router-view></router-view>
+  </div>
+  </v-app>
+</template>
