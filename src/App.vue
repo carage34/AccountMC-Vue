@@ -1,6 +1,8 @@
 <style scoped>
 a {
   text-decoration: none;
+}
+.v-application a{
   color: black;
 }
 </style>
@@ -15,7 +17,7 @@ a {
         <v-btn text>Ajouter un compte</v-btn>
         <v-btn text>Liste des utilisateurs</v-btn>
         <v-btn text><router-link to="/login">Se connecter</router-link></v-btn>
-        <v-btn text>S'inscrire</v-btn>
+        <v-btn text><router-link to="/register">S'inscrire</router-link></v-btn>
       </v-toolbar-items>
     </v-toolbar>
       <router-view></router-view>
