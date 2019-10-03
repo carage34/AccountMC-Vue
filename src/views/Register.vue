@@ -5,18 +5,18 @@
         <v-card-text>
           <h2>S'inscrire</h2>
           <v-form>
-            <v-text-field label="Pseudo" v-model="pseudo" prepend-icon="user" :rules="inputRules"></v-text-field>
+            <v-text-field label="Pseudo" v-model="pseudo" :rules="[rules.minLength]"></v-text-field>
             <v-text-field
+             type='password'
               label="Mot de passe"
               v-model="pass"
-              prepend-icon="password"
-              :rules="inputRules"
+              :rules="[rules.minLength]"
             ></v-text-field>
             <v-text-field
+             type='password'
               label="Confirmer le mot de passe"
               v-model="confirmpass"
-              prepend-icon="password"
-              :rules="inputRules"
+              :rules="passConfirmation"
             ></v-text-field>
             <v-btn flat class="sucsess" @click="submit">Valider</v-btn>
           </v-form>
@@ -33,15 +33,25 @@ export default {
       pseudo: '',
       pass: '',
       confirmpass: '',
-      inputRules: [
-        v => v.length >= 3 || 'Votre saisie est plus courte que 3 caractères'
-      ]
+      rules: {
+        minLength: v => v.length >= 3 || 'Votre saisie est plus courte que 3 caractères'
+      }
     }
   },
   methods: {
     submit () {
-      console.log(this.pseudo)
-      console.log(this.pass)
+      if (this.$refs.form.validate()) {
+        console.log(this.pseudo)
+        console.log(this.pass)
+      }
+    }
+  },
+  computed: {
+    passConfirmation () {
+      return [
+        () => (this.pass === this.confirmpass) || 'Les mots de passe ne correspondent pas'
+        
+      ]
     }
   }
 }
