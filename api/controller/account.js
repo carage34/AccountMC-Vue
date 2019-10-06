@@ -5,9 +5,8 @@ var server = require("../server.js")
 var db = require('../db.js');
 const rp = require('request-promise');
 const request = require("request");
-const ejsLint = require('ejs-lint');
 
- /*exports.list = function(req, res, next) {
+ exports.list = function(req, res, next) {
  	if(!(req.session.membre)) {
  		res.render("account/fdp.ejs")
  	}
@@ -23,7 +22,7 @@ const ejsLint = require('ejs-lint');
  			
  		})
  	})
- }*/
+ }
 
 exports.save = function(req, res, next) {
   if((req.session.admin!=1)&&(req.session.superadmin!=1)) {
@@ -86,9 +85,9 @@ exports.save_edit = function(req, res, next) {
     position: input.position
   };
   connection.query("UPDATE account set ? WHERE id = ?", [data, id], function(err, rows) {
-    if(err)
-     console.log("Error in Updating : " + err);
-   else {
+    if(err) {
+      console.log("Error in Updating : " + err);
+    } else {
      res.redirect("/");
    }
  })
@@ -114,29 +113,36 @@ exports.delete = function(req, res, next) {
 }
 
 exports.register = function(req, res, next) {
-  var input = JSON.parse(JSON.stringify(req.body));
+  var input = req.body
+  console.log("Input ");
+  console.log(input);
+  console.log(req.body);
   req.getConnection(function(err,connection) {
    var data = {
     pseudo: input.pseudo,
     mdp: bcrypt.hashSync(input.pass, 10),
   };
   var query = connection.query("INSERT INTO users set ?", data, function(err, rows, fields) {
-    if(err)
+    if(err){
+      res.json({info: "error"})
      console.log("Error in Inserting Data : " + err);
+    }
    else {
      req.session.pseudo = input.pseudo;
-     res.redirect("/");
+     res.json({success: "Inscription réussi"});
    }
  })
 })
 }
 
 exports.login = function(req, res, next) {
-  var input  = JSON.parse(JSON.stringify(req.body));
+  var input  = req.body;
   var pseudo = input.pseudo;
   var password = input.password;
+  console.log(pseudo)
+  console.log(password)
 
-  if(pseudo && password) {
+  //if(pseudo && password) {
    req.getConnection(function(err,connection) {
     connection.query("SELECT * FROM users WHERE pseudo = ?", [pseudo], function(error, results, fields) {
      if(error) throw error;
@@ -150,26 +156,29 @@ exports.login = function(req, res, next) {
  						req.session.admin = results[0].admin;
  						req.session.membre = results[0].membre;
  						req.session.ajouter = results[0].ajouter;
- 						req.session.ids = results[0].id;
- 						res.redirect("/");
+             req.session.ids = results[0].id;
+             res.json({auth: "success"});
  					} else {
- 						res.render("account/login.ejs", {locals: {err: "Mot de passe incorrect"}});
+             //res.render("account/login.ejs", {locals: {err: "Mot de passe incorrect"}});
+             res.json({auth: "failed", error: "Mot de passe incorrect"});
  					}
  					
  				} else {
  					req.flash("success", "<div class='alert alert-danger' role='alert'>Pseudo ou mot de passe incorrect</div>");
- 					res.render("account/login.ejs", {locals: {err: "Pseudo incorrect"}});
+           //res.render("account/login.ejs", {locals: {err: "Pseudo incorrect"}});
+           res.json({auth: "failed", error: "Pseudo incorrect"});
  				}
  			})
   })
- } else {
-   res.render("account/login.ejs", {locals: {err: "Entrez un pseudo et un mot de passe"}});
- }
+ //} else {
+   //res.render("account/login.ejs", {locals: {err: "Entrez un pseudo et un mot de passe"}});
+ //}
+}
 
 exports.group_save = function(req, res, next) {
-  /*if((req.session.admin!=1)&&(req.session.superadmin!=1)) {
+  if((req.session.admin!=1)&&(req.session.superadmin!=1)) {
     res.redirect("/");
-  }*/
+  }
   var input = JSON.parse(JSON.stringify(req.body));
   var arrId = input.arrId
   var groupName = input.groupName;

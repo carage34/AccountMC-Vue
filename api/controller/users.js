@@ -44,9 +44,7 @@ exports.user_edit_save = function (req, res, next) {
  				res.json({ success: true })
  			}
  		})
- 	}).catch(err) {
-		 
-	 }
+ 	})
 }
 
 exports.delete = function (req, res, next) {
