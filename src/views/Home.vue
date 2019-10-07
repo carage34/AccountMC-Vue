@@ -1,8 +1,15 @@
 <template>
-  <div class="home">
-    <p>Page d'accueil</p>
-    <p>{{pseudo}}</p>
+<v-app>
+  <v-container>
+  <div class="home text-xs-center">
+    <h1 v-if="this.$session.exists()">Bonjour {{pseudo}}</h1>
+    <v-simple-table>
+
+    </v-simple-table>
   </div>
+  </v-container>
+
+  </v-app>
 </template>
 
 <script>
@@ -16,14 +23,11 @@ export default {
     }
   },
   methods: {
-    init () {
-      if(this.$session.has("pseudo")) {
-        this.pseudo = this.$session.get("pseudo");
-      }
-    }
   },
   mounted(){
-    this.init();
+    if(this.$session.exists()) {
+      this.pseudo = this.$session.get("pseudo")
+    }
   },
   name: 'home',
   components: {

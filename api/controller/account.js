@@ -8,16 +8,16 @@ const request = require("request");
 
  exports.list = function(req, res, next) {
  	if(!(req.session.membre)) {
- 		res.render("account/fdp.ejs")
+ 		//res.render("account/fdp.ejs")
  	}
  	req.getConnection(function(err, connection) {
  		var query = connection.query("SELECT * FROM account", function(err, rows) {
  			if(err) console.log("Error Seleting list : " + err);
  			var obj = {pseudo : req.session.pseudo}
  			if(req.session.pseudo) {
- 				res.render("account/index.ejs",{data: rows, locals: {session : req.session}});
+ 				//res.render("account/index.ejs",{data: rows, locals: {session : req.session}});
  			} else {
- 				res.render("account/index.ejs", {data: rows});
+ 				//res.render("account/index.ejs", {data: rows});
  			}
  			
  		})
