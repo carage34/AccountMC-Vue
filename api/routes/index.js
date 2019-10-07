@@ -24,4 +24,5 @@ router.post('/group', account.group_save)
 router.post('/login', account.login)
 router.get('/logout', account.logout)
 router.get('/pseudo/:pseudoo', account.getPseudo)
+router.get('/accounts', account.getAccounts)
 module.exports = router

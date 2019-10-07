@@ -255,16 +255,16 @@ exports.getGroups = function(req, req, next) {
 }
 
 exports.getAccounts = function(req, res, next) {
-  return new Promise((resolve, reject) => {
+  //return new Promise((resolve, reject) => {
     db.pool.getConnection(function(err, connection) {
      if (err) throw err;
      connection.query("SELECT * FROM account", function(err, results, fields) {
       connection.release();
       if(err) console.log("Error Seleting list : " + err);
-      resolve(results);
+      res.json(results)
     })
    })
-  })
+  //})
 }
 
 exports.setAvatar = function(id, filename) {
