@@ -2,7 +2,7 @@ var express = require('express')
 var router = express.Router()
 var account = require('../controller/account')
 var cors = require('cors')
-router.use(cors());
+router.use(cors())
 /* GET home page. */
 router.get('/', account.list)
 router.post('/add', account.save)

@@ -31,25 +31,25 @@ import Vue from 'vue'
 import VueSession from 'vue-session'
 Vue.use(VueSession)
 export default {
-  data() {
+  data () {
     return {
-      pseudo: ""
+      pseudo: ''
     }
   },
   methods: {
     init () {
-      if(this.$session.has("pseudo")) {
-        this.pseudo = this.$session.get("pseudo");
+      if (this.$session.has('pseudo')) {
+        this.pseudo = this.$session.get('pseudo')
       }
     },
     logout () {
       this.$session.destroy()
-      this.$router.push("/")
+      this.$router.push('/')
     }
   },
 
-  mounted() {
-    this.init();
+  mounted () {
+    this.init()
   }
 }
 </script>

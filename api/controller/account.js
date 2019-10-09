@@ -254,6 +254,7 @@ exports.getGroups = function(req, req, next) {
   });
 }
 
+
 exports.getAccounts = function(req, res, next) {
   //return new Promise((resolve, reject) => {
     db.pool.getConnection(function(err, connection) {

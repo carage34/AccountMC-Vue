@@ -47,26 +47,25 @@ export default {
         console.log(this.pseudo)
         console.log(this.pass)
         var data = {
-          pseudo : this.pseudo,
-          password : this.pass
+          pseudo: this.pseudo,
+          password: this.pass
         }
         var headers = {
-          'Content-Type': "application/json"
+          'Content-Type': 'application/json'
         }
-        axios.post('http://localhost:5555/login' , data, {
+        axios.post('http://localhost:5555/login', data, {
           headers: headers
-        }).then(function(response) {
-          console.log(response.data.auth);
-          if(response.data.auth == "failed") {
-            self.$refs.dialoginfo.setMessage(response.data.error);
+        }).then(function (response) {
+          console.log(response.data.auth)
+          if (response.data.auth == 'failed') {
+            self.$refs.dialoginfo.setMessage(response.data.error)
             self.$refs.dialoginfo.toggle()
-            
           } else {
             self.$session.start()
-            self.$session.set("pseudo", self.pseudo);
+            self.$session.set('pseudo', self.pseudo)
             self.$router.push('/')
           }
-        }).catch(function(error) {
+        }).catch(function (error) {
           console.log(error)
         })
       }

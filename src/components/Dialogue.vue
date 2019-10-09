@@ -2,7 +2,7 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="290">
       <template v-slot:activator="{ on }">
-       
+
       </template>
       <v-card>
         <v-card-title class="headline">Authentification</v-card-title>
@@ -17,24 +17,24 @@
 </template>
 
 <script>
-  export default {
-    props: ['msg'],
-    data () {
-      return {
-        dialog: false,
-        message: ""
-      }
-    },
-    methods: {
-      toggle() {
-        this.dialog = true;
-      },
-      setMessage(text) {
-        this.message = text
-      }
-    },
-    mounted() {
-    
+export default {
+  props: ['msg'],
+  data () {
+    return {
+      dialog: false,
+      message: ''
     }
+  },
+  methods: {
+    toggle () {
+      this.dialog = true
+    },
+    setMessage (text) {
+      this.message = text
+    }
+  },
+  mounted () {
+
   }
+}
 </script>
