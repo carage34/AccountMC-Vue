@@ -2,7 +2,6 @@
 <v-app>
   <v-container>
     <dialog-info ref="dialoginfo" :msg="true">
-
     </dialog-info>
         <v-card>
         <v-card-text>

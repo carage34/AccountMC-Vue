@@ -14,11 +14,11 @@ a {
       <v-toolbar-title>AirVyus</v-toolbar-title>
       <v-toolbar-items>
         <v-btn text><router-link to="/">Accueil</router-link></v-btn>
-        <v-btn text>Ajouter un compte</v-btn>
+        <v-btn text><router-link to="/add">Ajouter un compte</router-link></v-btn>
         <v-btn text>Liste des utilisateurs</v-btn>
         <v-btn text v-if="!this.$session.exists()"><router-link to="/login">Se connecter</router-link></v-btn>
         <v-btn text v-if="!this.$session.exists()"><router-link to="/register">S'inscrire</router-link></v-btn>
-         <v-btn text v-if="this.$session.exists()" @click="logout"><router-link to="/logout">Se deconnecter</router-link></v-btn>
+        <v-btn text v-if="this.$session.exists()" @click="logout"><router-link to="/logout">Se deconnecter</router-link></v-btn>
       </v-toolbar-items>
     </v-toolbar>
       <router-view></router-view>
