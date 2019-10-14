@@ -5,7 +5,7 @@
 
       </template>
       <v-card>
-        <v-card-title class="headline">Authentification</v-card-title>
+        <v-card-title class="headline">{{heading}}</v-card-title>
         <v-card-text>{{message}}</v-card-text>
         <v-card-actions>
           <div class="flex-grow-1"></div>
@@ -22,7 +22,8 @@ export default {
   data () {
     return {
       dialog: false,
-      message: ''
+      message: '',
+      heading: ''
     }
   },
   methods: {
@@ -31,6 +32,9 @@ export default {
     },
     setMessage (text) {
       this.message = text
+    },
+    setHeading(text) {
+      this.heading = text
     }
   },
   mounted () {

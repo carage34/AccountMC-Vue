@@ -25,5 +25,4 @@ router.post('/login', account.login)
 router.get('/logout', account.logout)
 router.get('/pseudo/:pseudoo', account.getPseudo)
 router.get('/accounts', account.getAccounts)
-router.get('/accountsAPI', account.getAccountsAPI)
 module.exports = router

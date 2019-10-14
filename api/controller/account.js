@@ -25,17 +25,22 @@ const request = require("request");
  }
 
 exports.save = function(req, res, next) {
-  if((req.session.admin!=1)&&(req.session.superadmin!=1)) {
+  /*if((req.session.admin!=1)&&(req.session.superadmin!=1)) {
    res.redirect("/");
- }
- var input = JSON.parse(JSON.stringify(req.body));
+ }*/
+ var input = req.body
+ var email = input.email
+ var nom = input.nom
+ var password  = input.password
+ var position = input.position
+
  let request_body = {
   "agent": {
     "name": "Minecraft",
     "version": 1
   },
-  "username" : input.email,
-  "password" : input.mdp
+  "username" : email,
+  "password" : password
 }
 
 request({
@@ -44,15 +49,15 @@ request({
 }, (err, ress, body) => {
   if (!err) {
     if(body.hasOwnProperty("error")) {
-      res.render("account/add.ejs", {locals: {error: "Identifiants invalide", session : req.session}});
+      res.json({status: "failed", error: "Identifiants invalides"});
       return;
     }
     req.getConnection(function(err,connection) {
       var data = {
-        email: input.email,
-        nom: input.nom,
-        mdp: crypt.encrypt(input.mdp),
-        position: input.position,
+        email: email,
+        nom: nom,
+        mdp: crypt.encrypt(password),
+        position: position,
         url: "https://crafatar.com/avatars/"+body.selectedProfile.id
       };
       var query = connection.query("INSERT INTO account set ?", data, function(err, rows, fields) {
@@ -61,7 +66,7 @@ request({
         else {
           console.log("ins : " + rows.insertId);
           data.id = rows.insertId;
-          res.redirect("/");
+          res.json({status: "success"});
         }
       })
     });

@@ -58,6 +58,7 @@ export default {
           console.log(response.data.auth)
           if (response.data.auth == 'failed') {
             self.$refs.dialoginfo.setMessage(response.data.error)
+            self.$refs.dialoginfo.setHeading('Authentification')
             self.$refs.dialoginfo.toggle()
           } else {
             self.$session.start()
