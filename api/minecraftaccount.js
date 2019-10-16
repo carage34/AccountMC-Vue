@@ -9,8 +9,9 @@ const accounts = {};
 contaccount.getAccounts().then(function(result) {
 	console.log("result : " + result);
 	result.forEach(function(element, index) {
-		element.connected = false;
-		accounts[element.id] = element;
+		element.connected = false
+		element.load = false
+		accounts[element.id] = element
 	});
 	init();
 }).catch(function(err) {
@@ -24,10 +25,12 @@ function updateAccount(){
 				if(typeof accounts[element.id]==="undefined") {
 					console.log("ok");
 					element.connected = false;
+					element.load = false
 					accounts[element.id] = element;
 				} else {
 					var tmp = accounts[element.id];
 					element.connected = tmp.connected
+					element.load = tmp.load
 					if(typeof tmp.client !== "undefined") {
 						element.client = tmp.client
 					}
@@ -38,6 +41,8 @@ function updateAccount(){
 		}).catch(function(err) {
 			console.log("Error promise update account : " + err);
 		});
+	}).catch(function(error) {
+		console.log('error')
 	})
 }
 
@@ -48,10 +53,10 @@ module.exports = function(io) {
 	ios = io;
 	//init();
 }
-/*process.on('uncaughtException', function(err) {
+process.on('uncaughtException', function(err) {
   console.log('Caught exception: ' + err);
-  ios.emit("error", err);
-});*/
+  //ios.emit("error", err);
+});
 function init(){
 
 	//console.log(accounts);
@@ -98,7 +103,7 @@ function init(){
 		 				console.log("uuid :" + this.uuid);
 
 		 				socket.emit("logged", {id:this.id, username:this.username});
-		 				socket.broadcast.emit('enable_co', {id:this.id});
+		 				ios.emit('enable_co', {id:this.id});
 		 				accounts[this.id].connected = true;
 		 			});
 		 			client.on("connect", function(client) {

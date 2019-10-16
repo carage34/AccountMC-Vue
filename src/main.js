@@ -12,6 +12,7 @@ import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import socketio from 'socket.io-client'
 import VueSocketIO from 'vue-socket.io'
+
 Vue.use(BootstrapVue)
 library.add(faUserSecret)
 

@@ -31,11 +31,11 @@
                     <td>{{item.position}}</td>
                     <td>
                       <div class="btn-group">
-                        <button type="button" class="btn btn-outline-primary co">
-                          <v-progress-circular v-if="show" :size="25" color="primary" indeterminate></v-progress-circular>
-                          <span v-if="show"> Loading</span>
-                          <span v-if="show==false && item.connected==false">Connecter</span>
-                          <span v-if="show==false && item.connected==true">Deconnecter</span>
+                        <button type="button" @click="action(item.id)" :disabled='item.load' class="btn btn-outline-primary co">
+                          <v-progress-circular v-if="item.load" :size="25" color="primary" indeterminate></v-progress-circular>
+                          <span v-if="item.load"> Loading</span>
+                          <span v-if="item.load == false && item.connected==false">Connecter</span>
+                          <span v-if="item.load == false && item.connected==true">Deconnecter</span>
                         </button>
                         <button
                           type="button"
@@ -74,24 +74,51 @@ export default {
   data() {
     return {
       pseudo: "",
-      accounts: null,
+      accounts: {},
       show: true,
       socket : io('localhost:5555')
     };
   },
-  methods: {},
-  
+  sockets: {
+    init: function(data) {
+      console.log(data)
+      //this.accounts = data.data
+    }
+  },
+  methods: {
+    action(id) {
+      this.accounts[id].load = true
+      this.socket.emit('action', {my: id})
+    }
+  },
   mounted () {
     var self = this;
     this.socket.on('init', function(data) {
-      console.log(data)
       self.accounts = data.data
       self.show = false
     })
-    
+
+    this.socket.on('enable_co', function (data) {
+      console.log("enable_co")
+      console.log(data)
+      self.accounts[data.id].connected = true
+      self.accounts[data.id].load = false
+    })
+
+    this.socket.on('enable_deco', function (data) {
+      self.accounts[data.id].connected = false
+      self.accounts[data.id].load = false
+    })
+
+    this.socket.on('disable', function (data) {
+      this.accounts[data.id].load = true
+    })
+
     if (this.$session.exists()) {
       this.pseudo = this.$session.get("pseudo");
     }
+  },
+  updated () {
   },
   name: "home",
   components: {}

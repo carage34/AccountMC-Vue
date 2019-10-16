@@ -1,5 +1,3 @@
-
-
 <template>
   <v-app>
     <v-container>
@@ -43,6 +41,7 @@
 <script>
 import axios from "axios";
 import Dialog from '../components/Dialogue'
+
 export default {
   data() {
     return {
