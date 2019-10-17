@@ -5,7 +5,7 @@
         <v-card-text>
           <h2>S'inscrire</h2>
           <v-form ref='form'>
-            <v-text-field label='Pseudo' v-model='pseudo' :rules='[rules.required, rules.minLength]'></v-text-field>
+            <v-text-field label='Pseudo' v-model='pseudo' :rules='[rules.required, rules.minLength, checkEmpty]'></v-text-field>
             <v-text-field
              type='password'
               label='Mot de passe'
@@ -15,7 +15,7 @@
              type='password'
               label='Confirmer le mot de passe'
               v-model='confirmpass'
-              :rules='passConfirmation'
+              :rules='[passConfirmation, checkEmpty]'
               @change='passConfirmation'
             ></v-text-field>
             <v-btn flat class='success' @click='submit'>Valider</v-btn>
@@ -44,6 +44,13 @@ export default {
     }
   },
   methods: {
+    checkEmpty (field) {
+      if (!field.replace(/\s/g, '').length) {
+        return 'Champs requis'
+      } else {
+        return false
+      }
+    },
     submit () {
       var self = this
       if (this.$refs.form.validate()) {
