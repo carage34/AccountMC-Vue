@@ -61,6 +61,13 @@ export default {
             self.$refs.dialoginfo.setHeading('Authentification')
             self.$refs.dialoginfo.toggle()
           } else {
+            var tmp = false;
+            if(response.data.admin == 1) {
+              tmp = true
+              self.$store.commit('change', tmp)
+              
+            }
+            console.log(tmp)
             self.$session.start()
             self.$session.set('pseudo', self.pseudo)
             self.$router.push('/')

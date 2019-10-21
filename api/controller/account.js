@@ -162,22 +162,16 @@ exports.login = function(req, res, next) {
  						req.session.membre = results[0].membre;
  						req.session.ajouter = results[0].ajouter;
              req.session.ids = results[0].id;
-             res.json({auth: "success"});
+             res.json({auth: "success", admin: results[0].admin});
  					} else {
-             //res.render("account/login.ejs", {locals: {err: "Mot de passe incorrect"}});
              res.json({auth: "failed", error: "Mot de passe incorrect"});
  					}
  					
  				} else {
- 					req.flash("success", "<div class='alert alert-danger' role='alert'>Pseudo ou mot de passe incorrect</div>");
-           //res.render("account/login.ejs", {locals: {err: "Pseudo incorrect"}});
            res.json({auth: "failed", error: "Pseudo incorrect"});
  				}
  			})
   })
- //} else {
-   //res.render("account/login.ejs", {locals: {err: "Entrez un pseudo et un mot de passe"}});
- //}
 }
 
 exports.group_save = function(req, res, next) {

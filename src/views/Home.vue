@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <v-container>
+      <dialog-info ref='dialoginfo' :msg='true'></dialog-info>
       <div class='container'>
         <h1 v-if='this.$session.exists()'>Bonjour {{pseudo}}</h1>
         <v-card v-if='this.$session.exists()'>
@@ -68,6 +69,7 @@ import axios from 'axios'
 import Vue from 'vue'
 import VueSession from 'vue-session'
 import io from 'socket.io-client'
+import Dialog from '../components/Dialogue'
 Vue.use(VueSession)
 export default {
   data () {
@@ -116,7 +118,16 @@ export default {
     })
 
     this.socket.on('disable', function (data) {
-      this.accounts[data.id].load = true
+      //console.log("")
+      self.accounts[data.id].load = true
+    })
+
+    this.socket.on('logged', function (data) {
+      self.accounts[data.id].load = false
+      self.accounts[data.id].connected = true
+      self.$refs.dialoginfo.setMessage(data.username + ' s\'est connecté au serveur avec succès')
+      self.$refs.dialoginfo.setHeading('Connexion')
+      self.$refs.dialoginfo.toggle()
     })
 
     if (this.$session.exists()) {
@@ -126,6 +137,8 @@ export default {
   updated () {
   },
   name: "home",
-  components: {}
+  components: {
+    'dialog-info': Dialog
+  }
 }
 </script>

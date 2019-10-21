@@ -12,6 +12,7 @@ import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import socketio from 'socket.io-client'
 import VueSocketIO from 'vue-socket.io'
+import { store } from './store/store'
 
 Vue.use(BootstrapVue)
 library.add(faUserSecret)
@@ -27,5 +28,6 @@ Vue.config.productionTip = false
 new Vue({
   vuetify,
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')

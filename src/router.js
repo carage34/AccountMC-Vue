@@ -4,7 +4,7 @@ import Home from './views/Home.vue'
 import Login from './views/Login.vue'
 import Register from './views/Register.vue'
 import Add from './views/Add.vue'
-
+import {store} from './store/store'
 Vue.use(Router)
 
 
@@ -15,7 +15,12 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Home,
+      beforeEnter(to, from, next) {
+        if(store.getters.admin==false) {
+          router.push('/login')
+        }
+      }
     },
     {
       path: '/login',
