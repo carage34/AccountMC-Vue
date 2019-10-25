@@ -103,17 +103,18 @@ exports.delete = function(req, res, next) {
 
   var id = req.params.id;
   req.getConnection(function(err,connection) {
-   if((req.session.admin==1)||(req.session.superadmin==1)) {
+   //if((req.session.admin==1)||(req.session.superadmin==1)) {
     connection.query("DELETE FROM account where id = ?", [id], function(err, rows) {
      if(err) {
       console.log("Error in Updating : " + err);
+      res.json({ status: 'error' })
     }
     else {
- 		 			//res.redirect("/");
+      res.json({ status: 'success' })
  		 		}
  		 	})
-  }
-  res.redirect("/");
+  //}
+  res.json({ status: 'success' })
 })
 }
 

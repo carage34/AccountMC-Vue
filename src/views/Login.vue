@@ -7,8 +7,9 @@
         <v-card-text>
           <h2>S'inscrire</h2>
           <v-form ref="form">
-            <v-text-field label="Pseudo" v-model="pseudo" :rules="[rules.required]"></v-text-field>
+            <v-text-field prepend-icon="mdi-account-circle" label="Pseudo" v-model="pseudo" :rules="[rules.required]"></v-text-field>
             <v-text-field
+            prepend-icon="mdi-lock-alert"
              type='password'
               label="Mot de passe"
               v-model="pass"
@@ -56,16 +57,15 @@ export default {
           headers: headers
         }).then(function (response) {
           console.log(response.data.auth)
-          if (response.data.auth == 'failed') {
+          if (response.data.auth === 'failed') {
             self.$refs.dialoginfo.setMessage(response.data.error)
             self.$refs.dialoginfo.setHeading('Authentification')
             self.$refs.dialoginfo.toggle()
           } else {
-            var tmp = false;
-            if(response.data.admin == 1) {
+            var tmp = false
+            if (response.data.admin === 1) {
               tmp = true
               self.$store.commit('change', tmp)
-              
             }
             console.log(tmp)
             self.$session.start()

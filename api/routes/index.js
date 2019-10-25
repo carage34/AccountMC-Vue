@@ -9,7 +9,7 @@ router.post('/add', account.save)
 //  router.get('/add', account.add)
 //  router.get('/modify/:id', account.edit)
 router.post('/modify/:id', account.save_edit)
-router.get('/delete/:id', account.delete)
+router.get('/deleteaccount/:id', account.delete)
 router.get('/deletegroup/:id', account.deleteGroup)
 router.get('/register', function (req, res, next) {
   res.render('account/register.ejs', { locals: { session: req.session } })

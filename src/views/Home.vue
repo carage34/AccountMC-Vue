@@ -2,6 +2,7 @@
   <v-app>
     <v-container>
       <dialog-info ref='dialoginfo' :msg='true'></dialog-info>
+      <modal-confirm ref='modalconfirm'></modal-confirm>
       <div class='container'>
         <h1 v-if='this.$session.exists()'>Bonjour {{pseudo}}</h1>
         <v-card v-if='this.$session.exists()'>
@@ -48,7 +49,7 @@
                         </button>
                         <div class='dropdown-menu'>
                           <a class='dropdown-item' href='/modify/<%= item.id %>'>Modifier</a>
-                          <button type='button' class='dropdown-item btn btn-danger'>Supprimer</button>
+                          <button type='button' @click="deleteAccount(item.id, item.nom)" class='dropdown-item btn btn-danger'>Supprimer</button>
                           <a class='dropdown-item' href='#'>Ajouter un groupe</a>
                         </div>
                       </div>
@@ -70,11 +71,12 @@ import Vue from 'vue'
 import VueSession from 'vue-session'
 import io from 'socket.io-client'
 import Dialog from '../components/Dialogue'
+import ModalConfirm from '../components/ModalConfim'
 Vue.use(VueSession)
 export default {
   data () {
     return {
-      pseudo: "",
+      pseudo: '',
       accounts: {},
       show: true,
       socket: io('localhost:5555')
@@ -84,29 +86,35 @@ export default {
     connect (id) {
       this.show = false
       this.$socket.emit('action', { id: id })
+    },
+    action (id) {
+      this.accounts[id].load = true
+      this.socket.emit('action', { my: id })
+    },
+    deleteAccount (id, nom) {
+      this.$refs.modalconfirm.setMessage('Voulez vous vraiment supprimer le compte ' + nom)
+      this.$refs.modalconfirm.setHeading('Confirmation')
+      this.$refs.modalconfirm.setConfirmUrl('http://localhost:5555/deleteaccount/' + id)
+      this.$refs.modalconfirm.toggle()
     }
   },
   sockets: {
-    init: function(data) {
+    init: function (data) {
       console.log(data)
-      //this.accounts = data.data
-    }
-  },
-  methods: {
-    action(id) {
-      this.accounts[id].load = true
-      this.socket.emit('action', {my: id})
     }
   },
   mounted () {
-    var self = this;
-    this.socket.on('init', function(data) {
+    if (!this.$session.exists()) {
+      this.$router.push('/login')
+    }
+    var self = this
+    this.socket.on('init', function (data) {
       self.accounts = data.data
       self.show = false
     })
 
     this.socket.on('enable_co', function (data) {
-      console.log("enable_co")
+      console.log('enable_co')
       console.log(data)
       self.accounts[data.id].connected = true
       self.accounts[data.id].load = false
@@ -118,7 +126,6 @@ export default {
     })
 
     this.socket.on('disable', function (data) {
-      //console.log("")
       self.accounts[data.id].load = true
     })
 
@@ -136,9 +143,10 @@ export default {
   },
   updated () {
   },
-  name: "home",
+  name: 'home',
   components: {
-    'dialog-info': Dialog
+    'dialog-info': Dialog,
+    'modal-confirm': ModalConfirm
   }
 }
 </script>
