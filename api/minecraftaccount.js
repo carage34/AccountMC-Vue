@@ -43,7 +43,6 @@ function updateAccount () {
 module.exports = function (io) {
   ios = io
   contaccount.getAccounts().then(function (result) {
-    console.log('result : ' + result)
     result.forEach(function (element, index) {
       element.connected = false
       element.load = false
@@ -104,6 +103,14 @@ function init () {
             accounts[this.id].connected = true
           })
         }
+      })
+      socket.on('delAcc', function (data) {
+        var id = data.my
+        if (accounts.connected === true) {
+          accounts.client.end('disconnect')
+        }
+        delete accounts[id]
+        ios.emit('update', { data: accounts })
       })
     }).catch(function (error) {
       console.log(error)

@@ -1,8 +1,14 @@
+<style scoped>
+.v-application a {
+  color: #212529
+}
+</style>
+
 <template>
   <v-app>
     <v-container>
       <dialog-info ref='dialoginfo' :msg='true'></dialog-info>
-      <modal-confirm ref='modalconfirm'></modal-confirm>
+      <modal-confirm ref='modalconfirm' v-on:del-acc='delAcc'></modal-confirm>
       <div class='container'>
         <h1 v-if='this.$session.exists()'>Bonjour {{pseudo}}</h1>
         <v-card v-if='this.$session.exists()'>
@@ -32,25 +38,46 @@
                     <td>{{item.nom}}</td>
                     <td>{{item.position}}</td>
                     <td>
-                      <div class="btn-group">
-                        <button type="button" @click="action(item.id)" :disabled='item.load' class="btn btn-outline-primary co">
-                          <v-progress-circular v-if="item.load" :size="25" color="primary" indeterminate></v-progress-circular>
-                          <span v-if="item.load"> Loading</span>
-                          <span v-if="item.load == false && item.connected==false">Connecter</span>
-                          <span v-if="item.load == false && item.connected==true">Deconnecter</span>
+                      <div class='btn-group'>
+                        <button
+                          type='button'
+                          @click='action(item.id)'
+                          :disabled='item.load'
+                          class='btn btn-outline-primary co'
+                        >
+                          <v-progress-circular
+                            v-if='item.load'
+                            :size='25'
+                            color='primary'
+                            indeterminate
+                          ></v-progress-circular>
+                          <span v-if='item.load'>Loading</span>
+                          <span v-if='item.load == false && item.connected==false'>Connecter</span>
+                          <span v-if='item.load == false && item.connected==true'>Deconnecter</span>
                         </button>
                         <button
                           type='button'
                           class='btn btn-outline-primary dropdown-toggle dropdown-toggle-split'
                           data-toggle='dropdown'
                           aria-haspopup='true'
-                          aria-expanded='false'>
+                          aria-expanded='false'
+                        >
                           <span class='sr-only'>Toggle Dropdown</span>
                         </button>
                         <div class='dropdown-menu'>
-                          <a class='dropdown-item' href='/modify/<%= item.id %>'>Modifier</a>
-                          <button type='button' @click="deleteAccount(item.id, item.nom)" class='dropdown-item btn btn-danger'>Supprimer</button>
-                          <a class='dropdown-item' href='#'>Ajouter un groupe</a>
+                          <a class='dropdown-item' href='/modify/<%= item.id %>'>
+                            <v-icon>mdi-pencil</v-icon>Modifier
+                          </a>
+                          <button
+                            type='button'
+                            @click='deleteAccount(item.id, item.nom)'
+                            class='dropdown-item btn btn-danger'
+                          >
+                            <v-icon>mdi-delete</v-icon>Supprimer
+                          </button>
+                          <a class='dropdown-item' href='#'>
+                            <v-icon>mdi-plus-box</v-icon>Ajouter un groupe
+                          </a>
                         </div>
                       </div>
                     </td>
@@ -66,7 +93,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import Vue from 'vue'
 import VueSession from 'vue-session'
 import io from 'socket.io-client'
@@ -92,10 +118,17 @@ export default {
       this.socket.emit('action', { my: id })
     },
     deleteAccount (id, nom) {
-      this.$refs.modalconfirm.setMessage('Voulez vous vraiment supprimer le compte ' + nom)
+      this.$refs.modalconfirm.setMessage(
+        'Voulez vous vraiment supprimer le compte ' + nom
+      )
       this.$refs.modalconfirm.setHeading('Confirmation')
-      this.$refs.modalconfirm.setConfirmUrl('http://localhost:5555/deleteaccount/' + id)
+      this.$refs.modalconfirm.setConfirmUrl(
+        'http://localhost:5555/deleteaccount/' + id, id
+      )
       this.$refs.modalconfirm.toggle()
+    },
+    delAcc (id) {
+      this.socket.emit('delAcc', { my: id })
     }
   },
   sockets: {
@@ -132,17 +165,21 @@ export default {
     this.socket.on('logged', function (data) {
       self.accounts[data.id].load = false
       self.accounts[data.id].connected = true
-      self.$refs.dialoginfo.setMessage(data.username + ' s\'est connecté au serveur avec succès')
+      self.$refs.dialoginfo.setMessage(
+        data.username + ' s\'est connecté au serveur avec succès'
+      )
       self.$refs.dialoginfo.setHeading('Connexion')
       self.$refs.dialoginfo.toggle()
+    })
+    this.socket.on('update', function (data) {
+      self.accounts = data.data
     })
 
     if (this.$session.exists()) {
       this.pseudo = this.$session.get('pseudo')
     }
   },
-  updated () {
-  },
+  updated () {},
   name: 'home',
   components: {
     'dialog-info': Dialog,
