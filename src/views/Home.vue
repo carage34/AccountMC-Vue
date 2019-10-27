@@ -56,6 +56,7 @@
                           <span v-if='item.load == false && item.connected==true'>Deconnecter</span>
                         </button>
                         <button
+                        v-if="isAdmin"
                           type='button'
                           class='btn btn-outline-primary dropdown-toggle dropdown-toggle-split'
                           data-toggle='dropdown'
@@ -64,8 +65,9 @@
                         >
                           <span class='sr-only'>Toggle Dropdown</span>
                         </button>
-                        <div class='dropdown-menu'>
-                          <a class='dropdown-item' href='/modify/<%= item.id %>'>
+                        <div class='dropdown-menu'
+                        v-if="isAdmin">
+                          <a class='dropdown-item' href='#' @click="$router.push('/modify/'+item.id)">
                             <v-icon>mdi-pencil</v-icon>Modifier
                           </a>
                           <button
@@ -98,6 +100,7 @@ import VueSession from 'vue-session'
 import io from 'socket.io-client'
 import Dialog from '../components/Dialogue'
 import ModalConfirm from '../components/ModalConfim'
+import axios from 'axios'
 Vue.use(VueSession)
 export default {
   data () {
@@ -105,7 +108,8 @@ export default {
       pseudo: '',
       accounts: {},
       show: true,
-      socket: io('localhost:5555')
+      socket: io('localhost:5555'),
+      isAdmin: false
     }
   },
   methods: {
@@ -137,10 +141,16 @@ export default {
     }
   },
   mounted () {
+    console.log('sdqddqs' + this.$store.state.admin)
     if (!this.$session.exists()) {
       this.$router.push('/login')
     }
     var self = this
+    axios.get('http://localhost:5555/isAdmin').then(function (response) {
+      if (response.data.idAdmin) {
+        self.isAdmin = true
+      }
+    })
     this.socket.on('init', function (data) {
       self.accounts = data.data
       self.show = false

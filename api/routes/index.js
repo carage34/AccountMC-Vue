@@ -2,7 +2,10 @@ var express = require('express')
 var router = express.Router()
 var account = require('../controller/account')
 var cors = require('cors')
-router.use(cors())
+router.use(cors({
+  origin: 'http://localhost:8080',
+  credentials: true
+}))
 /* GET home page. */
 router.get('/', account.list)
 router.post('/add', account.save)
@@ -25,4 +28,5 @@ router.post('/login', account.login)
 router.get('/logout', account.logout)
 router.get('/pseudo/:pseudoo', account.getPseudo)
 router.get('/accounts', account.getAccounts)
+router.get('/account/:id', account.getOneAccount)
 module.exports = router

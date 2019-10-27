@@ -3,7 +3,6 @@ import './plugins/fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faUserSecret } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import './plugins/fontawesome'
 import App from './App.vue'
 import vuetify from './plugins/vuetify'
 import router from './router'
@@ -13,7 +12,10 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import socketio from 'socket.io-client'
 import VueSocketIO from 'vue-socket.io'
 import { store } from './store/store'
-
+import VueAxios from 'vue-axios'
+import axios from 'axios'
+axios.defaults.withCredentials = true
+Vue.use(VueAxios, axios)
 Vue.use(BootstrapVue)
 library.add(faUserSecret)
 

@@ -4,7 +4,7 @@
       <dialog-info ref='dialoginfo' :msg='true'></dialog-info>
       <v-card>
         <v-card-text>
-          <h2>Ajouter un compte</h2>
+          <h2>Modification de {{ nom }}</h2>
           <v-form ref='form'>
             <v-text-field
               label='Email'
@@ -17,12 +17,6 @@
               label='Nom'
               v-model.trim='nom'
               :rules='[rules.required, checkEmpty]'
-            ></v-text-field>
-            <v-text-field
-              label='Mot de passe'
-              type='password'
-              v-model.trim='mdp'
-              :rules='[rules.required,checkEmpty]'
             ></v-text-field>
             <v-text-field
               label='Position'
@@ -47,7 +41,6 @@ export default {
     return {
       email: '',
       nom: '',
-      mdp: '',
       position: '',
       rules: {
         required: v => !!v || 'Champ requis',
@@ -58,7 +51,7 @@ export default {
   methods: {
     checkEmpty (field) {
       if (!field.replace(/\s/g, '').length) {
-        return 'Champs requis'
+        return 'Champ requis'
       } else {
         return false
       }
@@ -77,7 +70,7 @@ export default {
           'Content-Type': 'application/json'
         }
         axios
-          .post('http://localhost:5555/add', data, {
+          .post('http://localhost:5555/modify/' + this.$route.params.id, data, {
             headers: headers
           })
           .then(function (response) {
@@ -95,6 +88,20 @@ export default {
           })
       }
     }
+  },
+  mounted () {
+    var self = this
+    axios.get('http://localhost:5555/isAdmin').then(function (response) {
+      console.log(response.data)
+      if (!response.data.idAdmin) {
+        self.$router.push('/')
+      }
+    })
+    axios.get('http://localhost:5555/account/' + self.$route.params.id).then(function (response) {
+      self.email = response.data[0].email
+      self.nom = response.data[0].nom
+      self.position = response.data[0].position
+    })
   },
   computed: {},
   components: {

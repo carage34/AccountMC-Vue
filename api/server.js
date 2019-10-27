@@ -22,7 +22,10 @@ var flash = require('express-flash-messages')
 var fs = require('fs')
 app.use(morgan('dev'))
 app.use(bodyParser.json())
-app.use(cors())
+app.use(cors({
+  credentials: true,
+  origin: 'http://localhost:8080'
+}))
 var login = {}
 // Get database conf
 
@@ -42,16 +45,17 @@ config = {
 
 // DB connection
 app.use(function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*') // update to match the domain you will make the request from
+  res.header('Access-Control-Allow-Origin', 'http://localhost:8080') // update to match the domain you will make the request from
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
   next()
 })
 app.use(session({
   secret: 'ssshhhhh',
-  saveUninitialized: false,
-  resave: false
+  saveUninitialized: true,
+  resave: false,
+  cookie: { secure: false }
 }))
-app.use(connection(mysql, config, 'request'))
+app.use(connection (mysql, config, 'request'))
 
 var index = require('./routes/index')
 var users = require('./routes/users')
@@ -61,10 +65,19 @@ app.use('/users', users)
 app.use(express.static('public'))
 
 app.get('/api', function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*') // update to match the domain you will make the request from
+  res.header('Access-Control-Allow-Origin', 'http://localhost:8080') // update to match the domain you will make the request from
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
-  next()
+  req.session.test = 'bla'
+  //  console.log(req.session.test)
   res.json({ status: 'Working' })
+})
+
+app.get('/isAdmin', function (req, res, next) {
+  var admin = false
+  if (req.session.admin === 1) {
+    admin = true
+  }
+  res.json({ idAdmin: admin })
 })
 
 exports.addUser = function (id, session) {
@@ -77,6 +90,6 @@ exports.getUser = function (id) {
 
 module.exports = app
 
-var minecraftaccount = require("./minecraftaccount.js")(io);
+var minecraftaccount = require('./minecraftaccount.js')(io)
 console.log('Server running on port ' + process.env.PORT)
-server.listen(process.env.PORT) 
+server.listen(process.env.PORT)

@@ -8,7 +8,7 @@ export const store = new Vuex.Store({
     admin: false
   },
   mutations: {
-    change(state, admin) {
+    change (state, admin) {
       state.admin = admin
     }
   },

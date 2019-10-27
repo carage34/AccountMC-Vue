@@ -63,11 +63,13 @@ export default {
             self.$refs.dialoginfo.toggle()
           } else {
             var tmp = false
+            console.log('response ' + response.data.admin)
             if (response.data.admin === 1) {
               tmp = true
               self.$store.commit('change', tmp)
             }
             console.log(tmp)
+            console.log(self.$store.getters.admin)
             self.$session.start()
             self.$session.set('pseudo', self.pseudo)
             self.$router.push('/')
@@ -77,6 +79,11 @@ export default {
         })
       }
     }
+  },
+  mounted () {
+    axios.get('http://localhost:5555/api').then(function (response) {
+      console.log(response.data)
+    })
   },
   components: {
     'dialog-info': Dialog

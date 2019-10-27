@@ -4,6 +4,7 @@ import Home from './views/Home.vue'
 import Login from './views/Login.vue'
 import Register from './views/Register.vue'
 import Add from './views/Add.vue'
+import Modify from './views/Modify.vue'
 import { store } from './store/store'
 Vue.use(Router)
 
@@ -30,6 +31,11 @@ export default new Router({
       path: '/add',
       name: 'name',
       component: Add
+    },
+    {
+      path: '/modify/:id',
+      name: 'modify',
+      component: Modify
     }
   ]
 })

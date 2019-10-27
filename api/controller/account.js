@@ -77,33 +77,33 @@ request({
 }
 
 exports.save_edit = function(req, res, next) {
-  if((req.session.admin!=1)&&(req.session.superadmin!=1)) {
-   res.redirect("/");
- }
- var input = JSON.parse(JSON.stringify(req.body));
+ var input = req.body
  var id = req.params.id;
- req.getConnection(function(err,connection) {
-  var data = {
-    email: input.email,
-    nom: input.nom,
-    mdp: crypt.encrypt(input.mdp),
-    position: input.position
-  };
-  connection.query("UPDATE account set ? WHERE id = ?", [data, id], function(err, rows) {
-    if(err) {
-      console.log("Error in Updating : " + err);
-    } else {
-     res.redirect("/");
-   }
- })
-})
+ if(req.session.admin===1) {
+  req.getConnection(function(err,connection) {
+    var data = {
+      email: input.email,
+      nom: input.nom,
+      position: input.position
+    };
+    connection.query("UPDATE account set ? WHERE id = ?", [data, id], function(err, rows) {
+      if(err) {
+        res.json( {status: 'error', error: 'Erreur lors de la modification'} )
+      } else {
+        res.json( {status: 'success'} )
+     }
+   })
+  })
+ } else {
+   res.json( {status: 'error', error: 'Vous n\'etes pas pas administrateur'} )
+ }
 }
 
 exports.delete = function(req, res, next) {
 
   var id = req.params.id;
   req.getConnection(function(err,connection) {
-   //if((req.session.admin==1)||(req.session.superadmin==1)) {
+   if((req.session.admin==1)) {
     connection.query("DELETE FROM account where id = ?", [id], function(err, rows) {
      if(err) {
       console.log("Error in Updating : " + err);
@@ -113,7 +113,9 @@ exports.delete = function(req, res, next) {
       res.json({ status: 'success' })
  		 		}
  		 	})
-  //}
+  } else {
+    res.json({ status: 'error' })
+  }
   //res.json({ status: 'success' })
 })
 }
@@ -159,7 +161,8 @@ exports.login = function(req, res, next) {
  					if(bcrypt.compareSync(password, results[0].mdp)) {
  						req.session.pseudo = results[0].pseudo;
  						req.session.superadmin = results[0].superadmin;
- 						req.session.admin = results[0].admin;
+             req.session.admin = results[0].admin;
+             console.log('plzzz ' + req.session.admin)
  						req.session.membre = results[0].membre;
  						req.session.ajouter = results[0].ajouter;
              req.session.ids = results[0].id;
@@ -264,6 +267,18 @@ exports.getAccounts = function(req, res, next) {
       if(err) console.log("Error Seleting list : " + err);
       resolve(results)
     })
+   })
+  })
+}
+
+exports.getOneAccount = function(req, res, next) {
+  var id = req.params.id
+  db.pool.getConnection(function(err, connection) {
+    if (err) throw err;
+    connection.query("SELECT * FROM account WHERE id = ?", id, function(err, results, fields) {
+     connection.release();
+     if(err) console.log("Error Seleting list : " + err);
+     res.json(results)
    })
   })
 }
