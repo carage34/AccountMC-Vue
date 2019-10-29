@@ -17,9 +17,9 @@
   
 # Sommaire  
   
-- [Installation et lancement](#quick-start)  
+- [Installation et lancement](#installation-et-lancement )  
 - [Les fonctionnalités](#les-fonctionnalités)  
-- [Ce que nous avons appris](#ce-que-nous-avons-appris)  
+- [CComment ça marche](#comment-ça-marche)  
 - [Technologies utilisées](#technologies-utilisées)  
 - [License de copyright](#copyright)  
   
@@ -39,7 +39,7 @@ npm run serve
 # Les fonctionnalités
 
 ### Le projet 
-Air Vyus est un petit site web de gestion sur lequel on peut ajouter des comptes Minecraft et les connecter à un serveur donné. Il part d'un cas d'utilisation. En effet des joueurs Minecraft souhaitaient avoir un moyen de se connecter à un serveur du jeu sans avoir à être sur leur ordinateur ou même sans avoir à lancer le jeu.
+Air Vyus est un petit site web de gestion sur lequel on peut ajouter des comptes Minecraft et les connecter à un serveur donné. Il part d'un cas d'utilisation : en effet des joueurs Minecraft souhaitaient avoir un moyen de se connecter à un serveur du jeu sans avoir à être sur leurs ordinateurs ou même sans avoir à lancer le jeu.
 
 ### Comment ça marche 
 
@@ -60,6 +60,7 @@ Nous avions déjà travailler avec VueJS et Vuetify lors de notre précédent [P
 ### Niveau back end
 
 Avant le projet, nous avions déjà une partie du backend qui avait déjà été réalisée. Mais il nous restait encore du travail sur de nombreux points.
+Il a notamment fallu apprendre à créer notre propre api et utilise les cookie interdomaine.
 
 ### Remarques générales
 
@@ -68,10 +69,11 @@ Notamment, la possibilité de créer des groupes d'utilisateurs afin de pouvoir 
 
 # Technologies utilisées
 
-Le projet a été entièrement réalisé à l'air de Javascript. 
-|  |     Frontend    | Backend |  |
-|--|-----------------|---------|--|
-|  | VueJS + Vuetify | Node JS |  |
+Le projet a été entièrement réalisé à l'aide de Javascript. 
+
+|     Frontend    | Backend |
+|-----------------|---------|
+| VueJS + Vuetify | Node JS |
 
 
 
