@@ -4,7 +4,7 @@
       <template v-slot:activator="{ on }">
 
       </template>
-      <v-card>
+      <v-card class="carte">
         <v-card-title class="headline">{{heading}}</v-card-title>
         <v-card-text>{{message}}</v-card-text>
         <v-card-actions>
@@ -33,7 +33,7 @@ export default {
     setMessage (text) {
       this.message = text
     },
-    setHeading(text) {
+    setHeading (text) {
       this.heading = text
     }
   },

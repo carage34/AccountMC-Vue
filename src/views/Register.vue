@@ -1,7 +1,13 @@
+<style>
+.carte {
+  background: rgba(255, 255, 255, 0.90) !important;
+}
+</style>
+
 <template>
   <v-app>
     <v-container>
-      <v-card>
+      <v-card class="carte">
         <v-card-text>
           <h2>S'inscrire</h2>
           <v-form ref='form'>

@@ -1,8 +1,14 @@
+<style>
+.carte {
+  background: rgba(255, 255, 255, 0.90) !important;
+}
+</style>
+
 <template>
   <v-app>
     <v-container>
       <dialog-info ref='dialoginfo' :msg='true'></dialog-info>
-      <v-card>
+      <v-card class="carte">
         <v-card-text>
           <h2>Ajouter un compte</h2>
           <v-form ref='form'>

@@ -5,23 +5,69 @@ a {
 .v-application a{
   color: black;
 }
+
+.deco {
+  transition: all 0.2s;
+}
+
+.deco:hover {
+  background: #ff7e67;
+  transition: all 0.2s;
+}
+
+@font-face {
+font-family: "Minecraft";
+src: url('assets/Minecraft.woff'),
+}
+
+* {
+  font-family: 'Roboto Mono', monospace;
+}
+
+.titre1 {
+  padding-left: 30px;
+}
+
+</style>
+
+<style>
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap');
+
+.v-application--wrap {
+  background: url('https://wallpaperaccess.com/full/171177.jpg') center;
+}
+
+.toolbar {
+    background-color: lightgrey;
+}
+
+.view {
+  background-color: lightgrey;
+}
+
+.v-btn__content {
+text-transform: none !important;
+}
+
+
 </style>
 
 <template>
 <v-app>
   <div>
-    <v-toolbar>
-      <v-toolbar-title>AirVyus</v-toolbar-title>
+    <v-toolbar class="toolbar" right >
+      <router-link style="text-decoration:none;" to="/"><v-toolbar-title class="titre1">AirVyus</v-toolbar-title></router-link>
+      <v-spacer></v-spacer>
       <v-toolbar-items>
-        <v-btn text><router-link to="/">Accueil</router-link></v-btn>
-        <v-btn text><router-link to="/add">Ajouter un compte</router-link></v-btn>
-        <v-btn text v-if='this.$session.exists() && this.isAdmin'><router-link to="/users">Liste des utilisateurs</router-link></v-btn>
-        <v-btn text v-if="!this.$session.exists()"><router-link to="/login">Se connecter</router-link></v-btn>
-        <v-btn text v-if="!this.$session.exists()"><router-link to="/register">S'inscrire</router-link></v-btn>
-        <v-btn text v-if="this.$session.exists()" @click="logout">Se deconnecter</v-btn>
+        <router-link to="/"><v-btn style="height:100%;" text>Accueil</v-btn></router-link>
+        <router-link to="/add"><v-btn style="height:100%;" class="text--bold" text>Ajouter un compte</v-btn></router-link>
+        <router-link to="/users"><v-btn style="height:100%;" text v-if='this.$session.exists() && this.isAdmin'>Liste des utilisateurs</v-btn></router-link>
+        <router-link to="/login"><v-btn style="height:100%;" text v-if="!this.$session.exists()">Se connecter</v-btn></router-link>
+        <router-link to="/register"><v-btn style="height:100%;" text v-if="!this.$session.exists()">S'inscrire</v-btn></router-link>
+        <v-btn class="deco" text v-if="this.$session.exists()" @click="logout">Se deconnecter</v-btn>
       </v-toolbar-items>
     </v-toolbar>
-      <router-view></router-view>
+    <router-view class="view"></router-view>
   </div>
   </v-app>
 </template>

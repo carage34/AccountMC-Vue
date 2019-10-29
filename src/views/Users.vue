@@ -1,3 +1,9 @@
+<style>
+.carte {
+  background: rgba(255, 255, 255, 0.90) !important;
+}
+</style>
+
 <style scoped>
 .pad {
   margin: 5px;
@@ -9,7 +15,7 @@
     <v-container>
       <div class="container">
         <dialog-info ref='dialoginfo' :msg='true'></dialog-info>
-        <v-card>
+        <v-card class="carte">
           <v-card-title>Liste des utilisateurs</v-card-title>
           <div class="row justify-content-start">
             <div class="col-lg-9">
