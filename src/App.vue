@@ -10,6 +10,15 @@ a {
   transition: all 0.2s;
 }
 
+.routerlink:hover {
+    background: green;
+  transition: all 0.2s;
+}
+
+.routerlink {
+  transition: all 0.2s;
+}
+
 .deco:hover {
   background: #ff7e67;
   transition: all 0.2s;
@@ -33,8 +42,32 @@ src: url('assets/Minecraft.woff'),
 <style>
 @import url('https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap');
 
+.btn-outline-primary:not(:disabled):not(.disabled):active:focus, .show>.btn-outline-primary.dropdown-toggle:focus {
+  -webkit-box-shadow: none!important;
+  box-shadow: none!important;
+
+}
+
+.btn-outline-primary:not(:disabled):not(.disabled).active, .btn-outline-primary:not(:disabled):not(.disabled):active, .show>.btn-outline-primary.dropdown-toggle {
+  color: #fff!important;
+    background-color: green !important;
+    border-color: green !important;
+}
+
+.btn-outline-primary {
+  color: green !important;
+    border-color: green !important;
+}
+
+.btn-outline-primary:hover {
+    color: #fff!important;
+    background-color: green !important;
+    border-color: green !important;
+}
+
 .v-application--wrap {
-  background: url('https://wallpaperaccess.com/full/171177.jpg') center;
+  background: url('http://wallpaperswide.com/download/minecraft_landscape-wallpaper-1920x1080.jpg') fixed center;
+  background-size : cover;
 }
 
 .toolbar {
@@ -43,12 +76,8 @@ src: url('assets/Minecraft.woff'),
 
 .view {
   background-color: lightgrey;
+  margin-top : 50px;
 }
-
-.v-btn__content {
-text-transform: none !important;
-}
-
 
 </style>
 
@@ -59,12 +88,12 @@ text-transform: none !important;
       <router-link style="text-decoration:none;" to="/"><v-toolbar-title class="titre1">AirVyus</v-toolbar-title></router-link>
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <router-link to="/"><v-btn style="height:100%;" text>Accueil</v-btn></router-link>
-        <router-link to="/add"><v-btn style="height:100%;" class="text--bold" text>Ajouter un compte</v-btn></router-link>
-        <router-link to="/users"><v-btn style="height:100%;" text v-if='this.$session.exists() && this.isAdmin'>Liste des utilisateurs</v-btn></router-link>
-        <router-link to="/login"><v-btn style="height:100%;" text v-if="!this.$session.exists()">Se connecter</v-btn></router-link>
-        <router-link to="/register"><v-btn style="height:100%;" text v-if="!this.$session.exists()">S'inscrire</v-btn></router-link>
-        <v-btn class="deco" text v-if="this.$session.exists()" @click="logout">Se deconnecter</v-btn>
+        <router-link class="routerlink" to="/"><v-btn style="height:100%; text-transform: none ; font-size:1em;" text>Accueil</v-btn></router-link>
+        <router-link class="routerlink" to="/add"><v-btn style="height:100%; text-transform: none ; font-size:1em;" class="text--bold" text>Ajouter un compte</v-btn></router-link>
+        <router-link class="routerlink" to="/users"><v-btn style="height:100%; text-transform: none ; font-size:1em;" text v-if='this.$session.exists() && this.isAdmin'>Liste des utilisateurs</v-btn></router-link>
+        <router-link class="routerlink" to="/login"><v-btn style="height:100%; text-transform: none ; font-size:1em;" text v-if="!this.$session.exists()">Se connecter</v-btn></router-link>
+        <router-link class="routerlink" to="/register"><v-btn style="height:100%; text-transform: none ; font-size:1em;" text v-if="!this.$session.exists()">S'inscrire</v-btn></router-link>
+        <v-btn style="height:100%; text-transform: none ; font-size:1em;" class="deco" text v-if="this.$session.exists()" @click="logout">Se deconnecter</v-btn>
       </v-toolbar-items>
     </v-toolbar>
     <router-view class="view"></router-view>

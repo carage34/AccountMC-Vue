@@ -15,7 +15,6 @@
       <dialog-info ref='dialoginfo' :msg='true'></dialog-info>
       <modal-confirm ref='modalconfirm' v-on:del-acc='delAcc'></modal-confirm>
       <div class='container'  >
-        
         <v-card  v-if='this.$session.exists()' class="carte">
           <h1 class="black--text" style="padding-left:15px; padding-top:15px;" v-if='this.$session.exists()'>Bonjour {{pseudo}}</h1>
           <v-card-title>Liste des comptes</v-card-title>
