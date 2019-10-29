@@ -29,4 +29,8 @@ router.get('/logout', account.logout)
 router.get('/pseudo/:pseudoo', account.getPseudo)
 router.get('/accounts', account.getAccounts)
 router.get('/account/:id', account.getOneAccount)
+router.get('/users', account.getUsers)
+router.get('/promote/:id', account.promote)
+router.get('/revoke/:id', account.revoke)
+router.get('/deleteUser/:id', account.deleteUser)
 module.exports = router

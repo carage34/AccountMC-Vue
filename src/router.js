@@ -5,7 +5,8 @@ import Login from './views/Login.vue'
 import Register from './views/Register.vue'
 import Add from './views/Add.vue'
 import Modify from './views/Modify.vue'
-import { store } from './store/store'
+import Users from './views/Users.vue'
+import Logout from './views/Logout.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -36,6 +37,16 @@ export default new Router({
       path: '/modify/:id',
       name: 'modify',
       component: Modify
+    },
+    {
+      path: '/users',
+      name: 'users',
+      component: Users
+    },
+    {
+      path: '/logout',
+      name: 'logout',
+      component: Logout
     }
   ]
 })

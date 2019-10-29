@@ -43,14 +43,13 @@
                           type='button'
                           @click='action(item.id)'
                           :disabled='item.load'
-                          class='btn btn-outline-primary co'
-                        >
+                          class='btn btn-outline-primary co'>
                           <v-progress-circular
-                            v-if='item.load'
-                            :size='25'
-                            color='primary'
-                            indeterminate
-                          ></v-progress-circular>
+                          v-if="item.load"
+                          :size="25"
+                          color="primary"
+                          indeterminate
+                        ></v-progress-circular>
                           <span v-if='item.load'>Loading</span>
                           <span v-if='item.load == false && item.connected==false'>Connecter</span>
                           <span v-if='item.load == false && item.connected==true'>Deconnecter</span>
@@ -141,14 +140,14 @@ export default {
     }
   },
   mounted () {
-    console.log('sdqddqs' + this.$store.state.admin)
     if (!this.$session.exists()) {
       this.$router.push('/login')
     }
     var self = this
     axios.get('http://localhost:5555/isAdmin').then(function (response) {
-      if (response.data.idAdmin) {
+      if (response.data.isAdmin) {
         self.isAdmin = true
+        console.log(response.data)
       }
     })
     this.socket.on('init', function (data) {
