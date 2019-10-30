@@ -5,6 +5,7 @@ var crypt = require('./crypt.js')
 var socket = require('socket.io')
 var contaccount = require('./controller/account.js')
 const accounts = {}
+var group = {}
 var ios = null
 
 function updateAccount () {
@@ -35,6 +36,28 @@ function updateAccount () {
   })
 }
 
+function updateGroup () {
+  group = {}
+  return new Promise((resolve, reject) => {
+    contaccount.getGroups().then(function (resultt) {
+      resultt.forEach(function (element, index) {
+        if (typeof group[element.groupName] === 'undefined') {
+          group[element.groupName] = {}
+          group[element.groupName][element.id] = element
+        } else {
+          group[element.groupName][element.id] = element
+        }
+      })
+      resolve(group)
+      /* obj.forEach(function(element, index) {
+        console.log(element);
+        }) */
+    }).catch(function (err) {
+      console.log(err)
+    })
+  })
+}
+
 /* process.on('uncaughtException', function (err) {
   console.log('Caught exception: ' + err)
   // ios.emit("error", err);
@@ -50,6 +73,22 @@ module.exports = function (io) {
     })
   }).catch(function (err) {
     console.log('Error promise getAccount : ' + err)
+  })
+  contaccount.getGroups().then(function (resultt) {
+    resultt.forEach(function (element, index) {
+      //  console.log(element)
+      if (typeof group[element.groupName] === 'undefined') {
+        group[element.groupName] = {}
+        group[element.groupName][element.id] = element
+      } else {
+        group[element.groupName][element.id] = element
+      }
+    })
+    console.log(group)
+    //  group = []
+    //  group.push(obj)
+  }).catch(function (err) {
+    console.log(err)
   })
   init()
 }
