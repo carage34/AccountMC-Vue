@@ -8,8 +8,6 @@ var server = require('http').Server(app)
 var io = require('socket.io')(server)
 var cors = require('cors')
 var morgan = require('morgan')
-const bcrypt = require('bcrypt')
-const request = require('request')
 
 var bodyParser = require('body-parser')
 var flash = require('express-flash-messages')
