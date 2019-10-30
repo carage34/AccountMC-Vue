@@ -89,4 +89,4 @@ module.exports = app
 
 require('./api/minecraftaccount.js')(io)
 console.log('Server running on port ' + process.env.PORT)
-server.listen(process.env.PORT)
+server.listen(process.env.PORT || 5555)

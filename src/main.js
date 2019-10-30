@@ -21,7 +21,7 @@ library.add(faUserSecret)
 
 Vue.use(new VueSocketIO({
   debug: true,
-  connection: socketio('http://localhost:5555') // options object is Optional
+  connection: socketio('https://carage34-accountmc-vue-1.glitch.me') // options object is Optional
 })
 )
 

@@ -128,7 +128,7 @@ export default {
   mounted () {
     this.init()
     var self = this
-    axios.get('http://localhost:5555/isAdmin').then(function (response) {
+    axios.get('/isAdmin').then(function (response) {
       if (response.data.isAdmin) {
         self.isAdmin = true
         console.log(self.isAdmin)
@@ -140,7 +140,7 @@ export default {
   updated () {
     this.init()
     var self = this
-    axios.get('http://localhost:5555/isAdmin').then(function (response) {
+    axios.get('/isAdmin').then(function (response) {
       if (response.data.isAdmin) {
         self.isAdmin = true
         console.log(response.data)

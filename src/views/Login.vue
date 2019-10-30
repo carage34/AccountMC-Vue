@@ -11,7 +11,7 @@
     </dialog-info>
         <v-card class="carte">
         <v-card-text>
-          <h2>S'inscrire</h2>
+          <h2>Se connecter</h2>
           <v-form ref="form">
             <v-text-field prepend-icon="mdi-account-circle" label="Pseudo" v-model="pseudo" :rules="[rules.required]"></v-text-field>
             <v-text-field
