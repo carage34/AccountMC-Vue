@@ -83,7 +83,7 @@ export default {
           'Content-Type': 'application/json'
         }
         axios
-          .post('http://localhost:5555/add', data, {
+          .post('/add', data, {
             headers: headers
           })
           .then(function (response) {

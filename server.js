@@ -51,8 +51,8 @@ app.use(session({
 }))
 app.use(connection(mysql, config, 'request'))
 
-var index = require('./routes/index')
-var users = require('./routes/users')
+var index = require('./api/routes/index')
+var users = require('./api/routes/users')
 
 app.use('/', index)
 app.use('/users', users)

@@ -1,6 +1,6 @@
 var crypt = require('../crypt.js')
 const bcrypt = require('bcrypt')
-var server = require('../server.js')
+var server = require('../../server.js')
 var db = require('../db.js')
 const request = require('request')
 

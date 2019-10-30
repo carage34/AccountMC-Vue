@@ -76,7 +76,7 @@ export default {
           'Content-Type': 'application/json'
         }
         axios
-          .post('http://localhost:5555/modify/' + this.$route.params.id, data, {
+          .post('/modify/' + this.$route.params.id, data, {
             headers: headers
           })
           .then(function (response) {
@@ -97,13 +97,13 @@ export default {
   },
   mounted () {
     var self = this
-    axios.get('http://localhost:5555/isAdmin').then(function (response) {
+    axios.get('/isAdmin').then(function (response) {
       console.log(response.data)
       if (!response.data.idAdmin) {
         self.$router.push('/')
       }
     })
-    axios.get('http://localhost:5555/account/' + self.$route.params.id).then(function (response) {
+    axios.get('/account/' + self.$route.params.id).then(function (response) {
       self.email = response.data[0].email
       self.nom = response.data[0].nom
       self.position = response.data[0].position

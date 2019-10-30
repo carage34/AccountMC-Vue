@@ -69,7 +69,7 @@ export default {
         var headers = {
           'Content-Type': 'application/json'
         }
-        axios.post('http://localhost:5555/register', data, {
+        axios.post('/register', data, {
           headers: headers
         }).then(function (response) {
           self.$session.start()

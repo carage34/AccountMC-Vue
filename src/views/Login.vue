@@ -59,7 +59,7 @@ export default {
         var headers = {
           'Content-Type': 'application/json'
         }
-        axios.post('http://localhost:5555/login', data, {
+        axios.post('/login', data, {
           headers: headers
         }).then(function (response) {
           console.log(response.data.auth)

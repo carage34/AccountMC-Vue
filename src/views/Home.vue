@@ -110,7 +110,7 @@ export default {
       pseudo: '',
       accounts: {},
       show: true,
-      socket: io('localhost:5555'),
+      socket: io('http://airvyus.com'),
       isAdmin: false
     }
   },
@@ -129,7 +129,7 @@ export default {
       )
       this.$refs.modalconfirm.setHeading('Confirmation')
       this.$refs.modalconfirm.setConfirmUrl(
-        'http://localhost:5555/deleteaccount/' + id, id
+        '/deleteaccount/' + id, id
       )
       this.$refs.modalconfirm.toggle()
     },
@@ -147,7 +147,7 @@ export default {
       this.$router.push('/login')
     }
     var self = this
-    axios.get('http://localhost:5555/isAdmin').then(function (response) {
+    axios.get('/isAdmin').then(function (response) {
       if (response.data.isAdmin) {
         self.isAdmin = true
         console.log(response.data)

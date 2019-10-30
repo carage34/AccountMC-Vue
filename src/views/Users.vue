@@ -81,7 +81,7 @@ export default {
   methods: {
     updateUser () {
       var self = this
-      axios.get('http://localhost:5555/users').then(function (response) {
+      axios.get('/users').then(function (response) {
         self.users = response.data
         console.log(self.users)
       })
@@ -91,7 +91,7 @@ export default {
       self.users[id].load = true
       if (status === 1) {
         axios
-          .get('http://localhost:5555/revoke/' + id)
+          .get('/revoke/' + id)
           .then(function (response) {
             console.log(response)
             if (response.data.status === 'success') {
@@ -113,7 +113,7 @@ export default {
           })
       } else {
         axios
-          .get('http://localhost:5555/promote/' + id)
+          .get('/promote/' + id)
           .then(function (response) {
             if (response.data.status === 'success') {
               self.users[id].admin = 1
@@ -137,7 +137,7 @@ export default {
     deleteUser (id) {
       var self = this
       axios
-        .get('http://localhost:5555/deleteUser/' + id)
+        .get('/deleteUser/' + id)
         .then(function (response) {
           if (response.data.status === 'success') {
             self.$refs.dialoginfo.setMessage(
@@ -158,13 +158,13 @@ export default {
   },
   mounted () {
     var self = this
-    axios.get('http://localhost:5555/isAdmin').then(function (response) {
+    axios.get('/isAdmin').then(function (response) {
       if (!response.data.isAdmin) {
         self.$router.push('/')
         console.log(response.data)
       }
     })
-    axios.get('http://localhost:5555/users').then(function (response) {
+    axios.get('/users').then(function (response) {
       self.users = response.data
       console.log(self.users)
     })

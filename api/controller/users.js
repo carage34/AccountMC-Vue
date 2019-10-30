@@ -1,4 +1,4 @@
-var server = require('../server.js')
+var server = require('../../server.js')
 
 exports.user_edit_save = function (req, res, next) {
   if ((req.session.superadmin !== 1)) {
