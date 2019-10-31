@@ -1,11 +1,28 @@
 /*
 Import lib
 */
+require('custom-env').env(true)
+console.log("PORT " + process.env.PORT)
+var fs = require('fs')
+
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/airvyus.com/privkey.pem', 'utf8')
+const certificate = fs.readFileSync('/etc/letsencrypt/live/airvyus.com/cert.pem', 'utf8')
+const ca = fs.readFileSync('/etc/letsencrypt/live/airvyus.com/chain.pem', 'utf8')
+  
+const credentials = {
+  key: privateKey,
+  cert: certificate,
+  ca: ca
+}
+
+
 var express = require('express')
 var app = express()
+var https = require('https')
+var http = require('http')
 var session = require('express-session')
-var server = require('http').Server(app)
-var io = require('socket.io')(server)
+//  var server = https.createServer(credentials, app)
+//  var io = require('socket.io')(server)
 var cors = require('cors')
 var morgan = require('morgan')
 
@@ -29,12 +46,14 @@ app.use(flash())
 // Database configuration
 var mysql = require('mysql')
 connection = require('express-myconnection')
+console.log(process.env.DB_USER)
+console.log(process.env.DB_NAME)
 config = {
-  host: 'dwarves.iut-fbleau.fr',
-  user: 'jully',
-  password: 'toto77370',
-  port: '3306',
-  database: 'jully'
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  port: process.env.DB_PORT,
+  database: process.env.DB_NAME
 }
 
 // DB connection
@@ -85,6 +104,18 @@ exports.getUser = function (id) {
 
 module.exports = app
 
-require('./api/minecraftaccount.js')(io)
 console.log('Server running on port ' + process.env.PORT)
-server.listen(process.env.PORT || 5555)
+const httpServer = http.createServer(app)
+
+const httpsServer = https.createServer(credentials, app)
+
+var io = require('socket.io')(httpsServer)
+
+require('./api/minecraftaccount.js')(io)
+httpServer.listen(process.env.PORT, () => {
+	console.log('HTTP Server running on port ' + process.env.PORT)
+})
+
+  httpsServer.listen(443, () => {
+    console.log('HTTPS Server running on port 443')
+  })

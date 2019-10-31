@@ -30,11 +30,11 @@ app.use(flash())
 var mysql = require('mysql')
 connection = require('express-myconnection')
 config = {
-  host: 'dwarves.iut-fbleau.fr',
-  user: 'jully',
-  password: 'toto77370',
-  port: '3306',
-  database: 'jully'
+  host: 'homenas3450.synology.me',
+  user: 'root',
+  password: 'Toto77370',
+  port: '3307',
+  database: 'account'
 }
 
 // DB connection
@@ -87,4 +87,4 @@ module.exports = app
 
 require('./api/minecraftaccount.js')(io)
 console.log('Server running on port ' + process.env.PORT)
-server.listen(process.env.PORT)
+server.listen(80)

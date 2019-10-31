@@ -87,9 +87,7 @@ export default {
     }
   },
   mounted () {
-    axios.get('http://localhost:5555/api').then(function (response) {
-      console.log(response.data)
-    })
+  
   },
   components: {
     'dialog-info': Dialog

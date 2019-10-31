@@ -66,7 +66,7 @@ src: url('assets/Minecraft.woff'),
 }
 
 .v-application--wrap {
-  background: url('http://wallpaperswide.com/download/minecraft_landscape-wallpaper-1920x1080.jpg') fixed center;
+  background: url('assets/unknown.png') fixed center;
   background-size : cover;
 }
 
@@ -87,7 +87,7 @@ src: url('assets/Minecraft.woff'),
     <v-toolbar class="toolbar" right >
       <router-link style="text-decoration:none;" to="/"><v-toolbar-title class="titre1">AirVyus</v-toolbar-title></router-link>
       <v-spacer></v-spacer>
-      <v-toolbar-items>
+      <v-toolbar-items collapse="true">
         <router-link class="routerlink" to="/"><v-btn style="height:100%; text-transform: none ; font-size:1em;" text>Accueil</v-btn></router-link>
         <router-link class="routerlink" to="/add"><v-btn style="height:100%; text-transform: none ; font-size:1em;" class="text--bold" text>Ajouter un compte</v-btn></router-link>
         <router-link class="routerlink" to="/users"><v-btn style="height:100%; text-transform: none ; font-size:1em;" text v-if='this.$session.exists() && this.isAdmin'>Liste des utilisateurs</v-btn></router-link>

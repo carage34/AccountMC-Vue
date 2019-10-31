@@ -110,7 +110,7 @@ export default {
       pseudo: '',
       accounts: {},
       show: true,
-      socket: io('https://carage34-accountmc-vue.glitch.me'),
+      socket: io('https://airvyus.com'),
       isAdmin: false
     }
   },

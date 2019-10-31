@@ -9,11 +9,11 @@ const DB_PORT = process.env.DB_PORT
 
 var pool = mysql.createPool({
   connexionLimit: 10,
-  host: 'dwarves.iut-fbleau.fr',
-  user: 'jully',
-  password: 'toto77370',
-  database: 'jully',
-  port: '3306'
+  host: DB_HOST,
+  user: DB_USER,
+  password: DB_PASS,
+  database: DB_NAME,
+  port: DB_PORT
 })
 
 module.exports = pool

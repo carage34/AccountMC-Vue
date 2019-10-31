@@ -99,7 +99,7 @@ export default {
     var self = this
     axios.get('/isAdmin').then(function (response) {
       console.log(response.data)
-      if (!response.data.idAdmin) {
+      if (!response.data.isAdmin) {
         self.$router.push('/')
       }
     })
