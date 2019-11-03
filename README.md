@@ -9,7 +9,9 @@
 		Morgan JULLY | Victor GUEGAN | Georges Amewe KASSI  
 		<br>  
 		Il permet de connecter des comptes Minecraft à un serveur donné.  
-		<br>  
+		<br/ >
+		 URL : https://airvyus.com
+	  	 <br/ >
 		<a href="https://github.com/carage34/AccountMC-Vue/issues/new">Signaler un bug</a>  
 	</p>  
 </p>  
@@ -19,7 +21,7 @@
   
 - [Installation et lancement](#installation-et-lancement )  
 - [Les fonctionnalités](#les-fonctionnalités)  
-- [CComment ça marche](#comment-ça-marche)  
+- [Comment ça marche](#comment-ça-marche)  
 - [Technologies utilisées](#technologies-utilisées)  
 - [License de copyright](#copyright)  
   
