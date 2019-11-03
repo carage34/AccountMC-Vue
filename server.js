@@ -116,6 +116,14 @@ const httpsServer = https.createServer(credentials, app)
 var io = require('socket.io')(httpsServer)
 
 require('./api/minecraftaccount.js')(io)
+
+httpServer.get('*', function (req, res) {
+  res.redirect('https://' + req.headers.host + req.url)
+
+  // Or, if you don't want to automatically detect the domain name from the request header, you can hard code it:
+  // res.redirect('https://example.com' + req.url);
+})
+
 httpServer.listen(process.env.PORT, () => {
   console.log('HTTP Server running on port ' + process.env.PORT)
 })
