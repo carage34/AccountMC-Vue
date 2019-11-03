@@ -2,20 +2,24 @@
 Import lib
 */
 require('custom-env').env(true)
-console.log("PORT " + process.env.PORT)
+console.log('PORT ' + process.env.PORT)
 var fs = require('fs')
+var privateKey = null
+var certificate = null
+var ca = null
+try {
+  privateKey = fs.readFileSync('/etc/letsencrypt/live/airvyus.com/privkey.pem', 'utf8')
+  certificate = fs.readFileSync('/etc/letsencrypt/live/airvyus.com/cert.pem', 'utf8')
+  ca = fs.readFileSync('/etc/letsencrypt/live/airvyus.com/chain.pem', 'utf8')
+} catch (err) {
+  console.log('Dev env')
+}
 
-const privateKey = fs.readFileSync('/etc/letsencrypt/live/airvyus.com/privkey.pem', 'utf8')
-const certificate = fs.readFileSync('/etc/letsencrypt/live/airvyus.com/cert.pem', 'utf8')
-const ca = fs.readFileSync('/etc/letsencrypt/live/airvyus.com/chain.pem', 'utf8')
-  
 const credentials = {
   key: privateKey,
   cert: certificate,
   ca: ca
 }
-
-
 var express = require('express')
 var app = express()
 var https = require('https')
@@ -34,7 +38,7 @@ app.use(cors({
   credentials: true,
   origin: 'http://localhost:8080'
 }))
-
+app.use(require('connect-history-api-fallback')())
 const path = require('path')
 app.use(express.static(path.join(__dirname, 'dist/')))
 
@@ -113,9 +117,9 @@ var io = require('socket.io')(httpsServer)
 
 require('./api/minecraftaccount.js')(io)
 httpServer.listen(process.env.PORT, () => {
-	console.log('HTTP Server running on port ' + process.env.PORT)
+  console.log('HTTP Server running on port ' + process.env.PORT)
 })
 
-  httpsServer.listen(443, () => {
-    console.log('HTTPS Server running on port 443')
-  })
+httpsServer.listen(443, () => {
+  console.log('HTTPS Server running on port 443')
+})

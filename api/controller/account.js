@@ -117,6 +117,10 @@ exports.register = function (req, res, next) {
   console.log('Input ')
   console.log(input)
   console.log(req.body)
+  if (input.pass !== input.confirmpass) {
+    res.json({ status: 'error', error: 'Les mots de passe de correspondent pas' })
+    return
+  }
   req.getConnection(function (err, connection) {
     if (err) throw err
     var data = {
@@ -125,11 +129,11 @@ exports.register = function (req, res, next) {
     }
     connection.query('INSERT INTO users set ?', data, function (err, rows, fields) {
       if (err) {
-        res.json({ info: 'error' })
+        res.json({ status: 'error', error: 'Erreur interne' })
         console.log('Error in Inserting Data : ' + err)
       } else {
         req.session.pseudo = input.pseudo
-        res.json({ success: 'Inscription réussi' })
+        res.json({ status: 'success' })
       }
     })
   })
@@ -239,7 +243,7 @@ exports.getGroups = function (req, res, next) {
         connection.release()
         if (err) console.log('Error Seleting list : ' + err)
         console.log('groups')
-        //console.log(results)
+        //  console.log(results)
         resolve(results)
       })
     })

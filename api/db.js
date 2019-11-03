@@ -1,6 +1,6 @@
 require('custom-env').env(true)
 var mysql = require('mysql')
-//Get database conf
+//  Get database conf
 const DB_NAME = process.env.DB_NAME
 const DB_PASS = process.env.DB_PASS
 const DB_USER = process.env.DB_USER

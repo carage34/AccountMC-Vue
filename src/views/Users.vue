@@ -81,9 +81,8 @@ export default {
   methods: {
     updateUser () {
       var self = this
-      axios.get('/users').then(function (response) {
+      axios.get(process.env.VUE_APP_API_URL + '/users').then(function (response) {
         self.users = response.data
-        console.log(self.users)
       })
     },
     updateStatus (status, id) {
@@ -91,9 +90,8 @@ export default {
       self.users[id].load = true
       if (status === 1) {
         axios
-          .get('/revoke/' + id)
+          .get(process.env.VUE_APP_API_URL + '/revoke/' + id)
           .then(function (response) {
-            console.log(response)
             if (response.data.status === 'success') {
               self.users[id].admin = 0
               self.users[id].load = false
@@ -113,7 +111,7 @@ export default {
           })
       } else {
         axios
-          .get('/promote/' + id)
+          .get(process.env.VUE_APP_API_URL + '/promote/' + id)
           .then(function (response) {
             if (response.data.status === 'success') {
               self.users[id].admin = 1
@@ -137,7 +135,7 @@ export default {
     deleteUser (id) {
       var self = this
       axios
-        .get('/deleteUser/' + id)
+        .get(process.env.VUE_APP_API_URL + '/deleteUser/' + id)
         .then(function (response) {
           if (response.data.status === 'success') {
             self.$refs.dialoginfo.setMessage(
@@ -158,15 +156,13 @@ export default {
   },
   mounted () {
     var self = this
-    axios.get('/isAdmin').then(function (response) {
+    axios.get(process.env.VUE_APP_API_URL + '/isAdmin').then(function (response) {
       if (!response.data.isAdmin) {
         self.$router.push('/')
-        console.log(response.data)
       }
     })
-    axios.get('/users').then(function (response) {
+    axios.get(process.env.VUE_APP_API_URL + '/users').then(function (response) {
       self.users = response.data
-      console.log(self.users)
     })
   },
   components: {

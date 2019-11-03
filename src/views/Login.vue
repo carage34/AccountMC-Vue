@@ -21,7 +21,7 @@
               v-model="pass"
               :rules="[rules.required]"
             ></v-text-field>
-            <v-btn flat class="success" @click="submit">Valider</v-btn>
+            <v-btn class="success" @click="submit">Valider</v-btn>
           </v-form>
         </v-card-text>
       </v-card>
@@ -50,8 +50,6 @@ export default {
     submit () {
       var self = this
       if (this.$refs.form.validate()) {
-        console.log(this.pseudo)
-        console.log(this.pass)
         var data = {
           pseudo: this.pseudo,
           password: this.pass
@@ -59,35 +57,30 @@ export default {
         var headers = {
           'Content-Type': 'application/json'
         }
-        axios.post('/login', data, {
+        axios.post(process.env.VUE_APP_API_URL + '/login', data, {
           headers: headers
         }).then(function (response) {
-          console.log(response.data.auth)
           if (response.data.auth === 'failed') {
             self.$refs.dialoginfo.setMessage(response.data.error)
             self.$refs.dialoginfo.setHeading('Authentification')
             self.$refs.dialoginfo.toggle()
           } else {
             var tmp = false
-            console.log('response ' + response.data.admin)
             if (response.data.admin === 1) {
               tmp = true
               self.$store.commit('change', tmp)
             }
-            console.log(tmp)
-            console.log(self.$store.getters.admin)
             self.$session.start()
             self.$session.set('pseudo', self.pseudo)
             self.$router.push('/')
           }
         }).catch(function (error) {
-          console.log(error)
+          throw error
         })
       }
     }
   },
   mounted () {
-  
   },
   components: {
     'dialog-info': Dialog

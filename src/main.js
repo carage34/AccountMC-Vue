@@ -1,9 +1,11 @@
 import Vue from 'vue'
+import App from './App'
+import Vuetify from 'vuetify'
 import './plugins/fontawesome'
+import 'vuetify/dist/vuetify.css'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faUserSecret } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import App from './App.vue'
 import vuetify from './plugins/vuetify'
 import router from './router'
 import BootstrapVue from 'bootstrap-vue'
@@ -18,7 +20,7 @@ axios.defaults.withCredentials = true
 Vue.use(VueAxios, axios)
 Vue.use(BootstrapVue)
 library.add(faUserSecret)
-
+Vue.use(Vuetify)
 Vue.use(new VueSocketIO({
   debug: true,
   connection: socketio('https://airvyus.com') // options object is Optional

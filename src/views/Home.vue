@@ -129,7 +129,7 @@ export default {
       )
       this.$refs.modalconfirm.setHeading('Confirmation')
       this.$refs.modalconfirm.setConfirmUrl(
-        '/deleteaccount/' + id, id
+        process.env.VUE_APP_API_URL + '/deleteaccount/' + id, id
       )
       this.$refs.modalconfirm.toggle()
     },
@@ -139,7 +139,6 @@ export default {
   },
   sockets: {
     init: function (data) {
-      console.log(data)
     }
   },
   mounted () {
@@ -147,10 +146,9 @@ export default {
       this.$router.push('/login')
     }
     var self = this
-    axios.get('/isAdmin').then(function (response) {
+    axios.get(process.env.VUE_APP_API_URL + '/isAdmin').then(function (response) {
       if (response.data.isAdmin) {
         self.isAdmin = true
-        console.log(response.data)
       }
     })
     this.socket.on('init', function (data) {
@@ -159,8 +157,6 @@ export default {
     })
 
     this.socket.on('enable_co', function (data) {
-      console.log('enable_co')
-      console.log(data)
       self.accounts[data.id].connected = true
       self.accounts[data.id].load = false
     })

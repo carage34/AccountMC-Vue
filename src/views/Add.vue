@@ -78,16 +78,14 @@ export default {
           position: this.position,
           nom: this.nom
         }
-        console.log(data)
         var headers = {
           'Content-Type': 'application/json'
         }
         axios
-          .post('/add', data, {
+          .post(process.env.VUE_APP_API_URL + '/add', data, {
             headers: headers
           })
           .then(function (response) {
-            console.log(response.data.auth)
             if (response.data.status === 'failed') {
               self.$refs.dialoginfo.setMessage(response.data.error)
               self.$refs.dialoginfo.setHeading('Insertion d\'un nouveau compte')
@@ -97,7 +95,7 @@ export default {
             }
           })
           .catch(function (error) {
-            console.log(error)
+            throw error
           })
       }
     }

@@ -71,16 +71,14 @@ export default {
           position: this.position,
           nom: this.nom
         }
-        console.log(data)
         var headers = {
           'Content-Type': 'application/json'
         }
         axios
-          .post('/modify/' + this.$route.params.id, data, {
+          .post(process.env.VUE_APP_API_URL + '/modify/' + this.$route.params.id, data, {
             headers: headers
           })
           .then(function (response) {
-            console.log(response.data.auth)
             if (response.data.status === 'failed') {
               self.$refs.dialoginfo.setMessage(response.data.error)
               self.$refs.dialoginfo.setHeading('Insertion d\'un nouveau compte')
@@ -90,20 +88,19 @@ export default {
             }
           })
           .catch(function (error) {
-            console.log(error)
+            throw error
           })
       }
     }
   },
   mounted () {
     var self = this
-    axios.get('/isAdmin').then(function (response) {
-      console.log(response.data)
+    axios.get(process.env.VUE_APP_API_URL + '/isAdmin').then(function (response) {
       if (!response.data.isAdmin) {
         self.$router.push('/')
       }
     })
-    axios.get('/account/' + self.$route.params.id).then(function (response) {
+    axios.get(process.env.VUE_APP_API_URL + '/account/' + self.$route.params.id).then(function (response) {
       self.email = response.data[0].email
       self.nom = response.data[0].nom
       self.position = response.data[0].position

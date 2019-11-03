@@ -7,6 +7,7 @@
 <template>
   <v-app>
     <v-container>
+      <dialog-info ref='dialoginfo'></dialog-info>
       <v-card class="carte">
         <v-card-text>
           <h2>S'inscrire</h2>
@@ -16,15 +17,15 @@
              type='password'
               label='Mot de passe'
               v-model='pass'
+              :rules='[rules.required, rules.minLength, checkEmpty]'
             ></v-text-field>
             <v-text-field
              type='password'
               label='Confirmer le mot de passe'
               v-model='confirmpass'
-              :rules='[passConfirmation, checkEmpty]'
-              @change='passConfirmation'
+              :rules='[rules.required, rules.minLength, checkEmpty]'
             ></v-text-field>
-            <v-btn flat class='success' @click='submit'>Valider</v-btn>
+            <v-btn class='success' @click='submit'>Valider</v-btn>
           </v-form>
         </v-card-text>
       </v-card>
@@ -36,6 +37,7 @@
 import axios from 'axios'
 import Vue from 'vue'
 import VueSession from 'vue-session'
+import Dialog from '../components/Dialogue'
 Vue.use(VueSession)
 export default {
   data () {
@@ -60,23 +62,28 @@ export default {
     submit () {
       var self = this
       if (this.$refs.form.validate()) {
-        console.log(this.pseudo)
-        console.log(this.pass)
         var data = {
           pseudo: this.pseudo,
-          pass: this.pass
+          pass: this.pass,
+          confirmpass: this.confirmpass
         }
         var headers = {
           'Content-Type': 'application/json'
         }
-        axios.post('/register', data, {
+        axios.post(process.env.VUE_APP_API_URL + '/register', data, {
           headers: headers
         }).then(function (response) {
-          self.$session.start()
-          self.$session.set('pseudo', self.pseudo)
-          self.$router.push('/')
+          if (response.data.status === 'success') {
+            self.$session.start()
+            self.$session.set('pseudo', self.pseudo)
+            self.$router.push('/')
+          } else {
+            self.$refs.dialoginfo.setMessage(response.data.error)
+            self.$refs.dialoginfo.setHeading('Erreur')
+            self.$refs.dialoginfo.toggle()
+          }
         }).catch(function (error) {
-          console.log(error)
+          throw error
         })
       }
     }
@@ -88,6 +95,9 @@ export default {
         v => !!v || 'Champ requis', v => v.length >= 3 || 'Votre saisie est plus courte que 3 caractères'
       ]
     }
+  },
+  components: {
+    'dialog-info': Dialog
   }
 }
 </script>
